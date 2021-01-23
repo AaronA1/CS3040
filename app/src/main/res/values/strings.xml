@@ -6,7 +6,22 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name='done'>Done</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="item_name">What is the name of the item?</string>
+    <string name="item_hint">Item Name</string>
+    <string name="item_category">Please choose a category</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="textview">TextView</string>
+
+    <string-array name="categories_array">
+        <item>Bicycle</item>
+        <item>Book</item>
+        <item>Clothing</item>
+        <item>Electronic</item>
+        <item>Flowers</item>
+        <item>Jewellery</item>
+        <item>Other</item>
+    </string-array>
 </resources>
