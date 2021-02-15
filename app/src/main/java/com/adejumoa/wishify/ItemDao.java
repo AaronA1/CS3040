@@ -27,4 +27,7 @@ public interface ItemDao {
 
     @Query("SELECT * from item_table ORDER BY name ASC")
     LiveData<List<Item>> getAllItems();
+
+    @Query("SELECT * from item_table LIMIT 1")
+    Item[] getAnyItem();
 }

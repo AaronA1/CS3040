@@ -50,13 +50,17 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         else return 0;
     }
 
+    public Item getItemAtPosition (int position) {
+        return mItems.get(position);
+    }
+
     static class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView itemItemView;
 
         private ItemViewHolder(View itemView) {
             super(itemView);
-            itemItemView = itemView.findViewById(R.id.textView);
+            itemItemView = itemView.findViewById(R.id.itemNameTV);
         }
     }
 }

@@ -54,13 +54,12 @@ public abstract class ItemRoomDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
-            // Start the app with a clean database every time.
-            // Not needed if you only populate on creation.
-            mDao.deleteAll();
-
-            for( int i = 0; i <= items.length - 1; i++) {
-                Item item = new Item(items[i]);
-                mDao.insert(item);
+            // If we have no words, then create the initial list of words
+            if (mDao.getAnyItem().length < 1) {
+                for (int i = 0; i <= items.length - 1; i++) {
+                    Item item = new Item(items[i]);
+                    mDao.insert(item);
+                }
             }
             return null;
         }

@@ -12,8 +12,7 @@
     <string name="item_name">What is the name of the item?</string>
     <string name="item_hint">Item Name</string>
     <string name="item_category">Please choose a category</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="textview">TextView</string>
+    <string name="clear_all_items">Clear all Items</string>
 
     <string-array name="categories_array">
         <item>Bicycle</item>
