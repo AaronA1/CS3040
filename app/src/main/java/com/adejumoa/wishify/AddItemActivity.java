@@ -14,10 +14,16 @@ import android.widget.Spinner;
 public class AddItemActivity extends AppCompatActivity {
 
     private EditText itemName;
+    private EditText itemDescription;
+    private EditText itemPrice;
     private Spinner itemCategory;
 
     public static final String EXTRA_REPLY =
-            "com.example.android.roomwordssample.REPLY";
+            "com.example.android.roomitem.REPLY";
+    public static final String EXTRA_REPLY_2 =
+            "com.example.android.roomitem2.REPLY";
+    public static final String EXTRA_REPLY_3 =
+            "com.example.android.roomitem3.REPLY";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,6 +31,8 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
 
         itemName = findViewById(R.id.item_name);
+        itemDescription = findViewById(R.id.item_desc);
+        itemPrice = findViewById(R.id.item_price);
         itemCategory = findViewById(R.id.spinner_category);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -42,8 +50,12 @@ public class AddItemActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(itemName.getText())) {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
-                    String word = itemName.getText().toString();
-                    replyIntent.putExtra(EXTRA_REPLY, word);
+                    String name = itemName.getText().toString();
+                    String desc = itemDescription.getText().toString();
+                    double price = Double.parseDouble(itemPrice.getText().toString());
+                    replyIntent.putExtra(EXTRA_REPLY, name);
+                    replyIntent.putExtra(EXTRA_REPLY_2, desc);
+                    replyIntent.putExtra(EXTRA_REPLY_3, price);
                     setResult(RESULT_OK, replyIntent);
                 }
                 finish();

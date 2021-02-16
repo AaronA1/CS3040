@@ -31,10 +31,12 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
     public void onBindViewHolder(@NonNull ItemListAdapter.ItemViewHolder holder, int position) {
         if (mItems != null) {
             Item current = mItems.get(position);
-            holder.itemItemView.setText(current.getName());
+            holder.itemNameView.setText(current.getName());
+            holder.itemDescriptionView.setText(current.getDescription());
+            holder.itemPriceView.setText('£' + Double.toString(current.getPrice()));
         } else {
             // Covers the case of data not being ready yet.
-            holder.itemItemView.setText("No Item");
+            holder.itemNameView.setText("No Item");
         }
     }
 
@@ -56,11 +58,15 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView itemItemView;
+        private final TextView itemNameView;
+        private final TextView itemDescriptionView;
+        private final TextView itemPriceView;
 
         private ItemViewHolder(View itemView) {
             super(itemView);
-            itemItemView = itemView.findViewById(R.id.itemNameTV);
+            itemNameView = itemView.findViewById(R.id.itemNameTV);
+            itemDescriptionView = itemView.findViewById(R.id.itemDescTV);
+            itemPriceView = itemView.findViewById(R.id.itemPriceTV);
         }
     }
 }

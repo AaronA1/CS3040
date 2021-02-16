@@ -46,7 +46,9 @@ public abstract class ItemRoomDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
         private final ItemDao mDao;
-        String [] items = {"dolphin", "crocodile", "cobra"};
+        String[] items = {"dolphin", "crocodile", "cobra"};
+        String[] descriptions = {"cousin to a shark", "snappy snapper", "venomous villain"};
+        double[] prices = {20.99, 105.24, 40.19};
 
         PopulateDbAsync(ItemRoomDatabase db) {
             mDao = db.itemDao();
@@ -57,7 +59,7 @@ public abstract class ItemRoomDatabase extends RoomDatabase {
             // If we have no words, then create the initial list of words
             if (mDao.getAnyItem().length < 1) {
                 for (int i = 0; i <= items.length - 1; i++) {
-                    Item item = new Item(items[i]);
+                    Item item = new Item(items[i], descriptions[i], prices[i]);
                     mDao.insert(item);
                 }
             }

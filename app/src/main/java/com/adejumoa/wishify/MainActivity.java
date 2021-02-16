@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Deleting " +
                                 myItem.getName(), Toast.LENGTH_LONG).show();
 
-                        // Delete the word
+                        // Delete the item
                         mItemViewModel.delete(myItem);
                     }
                 });
@@ -92,12 +92,12 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Item item = new Item(data.getStringExtra(AddItemActivity.EXTRA_REPLY));
+            Item item = new Item(data.getStringExtra(AddItemActivity.EXTRA_REPLY), data.getStringExtra(AddItemActivity.EXTRA_REPLY_2), data.getDoubleExtra(AddItemActivity.EXTRA_REPLY_3, 0));
             mItemViewModel.insert(item);
         } else {
             Toast.makeText(
                     getApplicationContext(),
-                    "Empty, Not Saved",
+                    "Empty Name, Item not Saved",
                     Toast.LENGTH_LONG).show();
         }
     }
