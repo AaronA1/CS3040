@@ -11,11 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.android.material.textfield.TextInputLayout;
+
+import org.w3c.dom.Text;
+
 public class AddItemActivity extends AppCompatActivity {
 
-    private EditText itemName;
-    private EditText itemDescription;
-    private EditText itemPrice;
+    private TextInputLayout itemName;
+    private TextInputLayout itemDescription;
+    private TextInputLayout itemPrice;
     private Spinner itemCategory;
 
     public static final String EXTRA_REPLY =
@@ -47,18 +51,18 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent replyIntent = new Intent();
-                if (TextUtils.isEmpty(itemName.getText())) {
-                    setResult(RESULT_CANCELED, replyIntent);
+                if (TextUtils.isEmpty(itemName.getEditText().getText())) {
+                    itemName.setError("You must enter an item name");
                 } else {
-                    String name = itemName.getText().toString();
-                    String desc = itemDescription.getText().toString();
-                    double price = Double.parseDouble(itemPrice.getText().toString());
+                    String name = itemName.getEditText().getText().toString();
+                    String desc = itemDescription.getEditText().getText().toString();
+                    double price = Double.parseDouble(itemPrice.getEditText().getText().toString());
                     replyIntent.putExtra(EXTRA_REPLY, name);
                     replyIntent.putExtra(EXTRA_REPLY_2, desc);
                     replyIntent.putExtra(EXTRA_REPLY_3, price);
                     setResult(RESULT_OK, replyIntent);
+                    finish();
                 }
-                finish();
             }
         });
 

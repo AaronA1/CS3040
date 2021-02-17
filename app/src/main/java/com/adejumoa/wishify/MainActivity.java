@@ -97,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(
                     getApplicationContext(),
-                    "Empty Name, Item not Saved",
-                    Toast.LENGTH_LONG).show();
+                    "Item not saved",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 

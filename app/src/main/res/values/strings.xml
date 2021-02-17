@@ -9,11 +9,10 @@
     <string name='done'>Done</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="item_name">What is the name of the item?</string>
     <string name="item_name_hint">Name</string>
-    <string name="item_desc_hint">Description</string>
-    <string name="item_price_hint">Price</string>
-    <string name="item_category">Please choose a category</string>
+    <string name="item_desc_hint">Description?</string>
+    <string name="item_price_hint">Price?</string>
+    <string name="item_category">Category?</string>
     <string name="clear_all_items">Clear all Items</string>
 
     <string-array name="categories_array">
