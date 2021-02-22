@@ -3,21 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainActivity">
-
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.adejumoa.wishify.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" >
+    app:startDestination="@id/mainListFragment">
+    <fragment
+        android:id="@+id/itemViewFragment"
+        android:name="com.adejumoa.wishify.ItemViewFragment"
+        android:label="fragment_item_view"
+        tools:layout="@layout/fragment_item_view" >
         <action
-            android:id="@+id/action_mainActivity_to_addItemActivity2"
-            app:destination="@id/addItemActivity2"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-    </activity>
-    <activity
-        android:id="@+id/addItemActivity2"
-        android:name="com.adejumoa.wishify.AddItemActivity"
-        android:label="AddItemActivity" />
+            android:id="@+id/action_itemViewFragment_to_mainListFragment"
+            app:destination="@id/mainListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainListFragment"
+        android:name="com.adejumoa.wishify.MainListFragment"
+        android:label="fragment_main_list"
+        tools:layout="@layout/fragment_main_list" >
+        <action
+            android:id="@+id/action_mainListFragment_to_itemViewFragment"
+            app:destination="@id/itemViewFragment" />
+    </fragment>
 </navigation>

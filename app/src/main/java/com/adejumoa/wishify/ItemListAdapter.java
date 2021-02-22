@@ -1,15 +1,19 @@
 package com.adejumoa.wishify;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemViewHolder>  {
@@ -35,6 +39,19 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             holder.itemNameView.setText(current.getName());
             holder.itemDescriptionView.setText(current.getDescription());
             holder.itemPriceView.setText('£' + Double.toString(current.getPrice()));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AppCompatActivity activity = (AppCompatActivity) holder.itemView.getContext();
+                    activity.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.main_container, ItemViewFragment.newInstance())
+                            .addToBackStack("Main")
+                            .commit();
+                    Toast.makeText(
+                            v.getContext(),
+                            "Works",
+                            Toast.LENGTH_SHORT).show();                }
+            });
         } else {
             // Covers the case of data not being ready yet.
             holder.itemNameView.setText("No Item");
@@ -62,6 +79,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         private final TextView itemNameView;
         private final TextView itemDescriptionView;
         private final TextView itemPriceView;
+
 
         private ItemViewHolder(View itemView) {
             super(itemView);
