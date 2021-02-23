@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,6 +52,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
 
             // Set short click listener
             holder.cardView.setOnClickListener(v -> {
+                MainListFragment.mViewModel.selectItem(current);
                 AppCompatActivity activity = (AppCompatActivity) holder.itemView.getContext();
                 activity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_container, ItemViewFragment.newInstance())
@@ -68,13 +70,13 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
                     if(item.getItemId() == R.id.menu_mark_purchased) {
                         Item listItem = getItemAtPosition(position);
                         listItem.setPurchased(true);
-                        MainListFragment.mItemViewModel.update(listItem);
+                        MainListFragment.mViewModel.update(listItem);
                         Toast.makeText(v.getContext(), "Mark Purchased", Toast.LENGTH_SHORT).show();
                     } else if (item.getItemId() == R.id.menu_edit_item) {
                         Toast.makeText(v.getContext(), "Edit Item", Toast.LENGTH_SHORT).show();
                     } else if (item.getItemId() == R.id.menu_delete_item) {
                         Item listItem = getItemAtPosition(position);
-                        MainListFragment.mItemViewModel.delete(listItem);
+                        MainListFragment.mViewModel.delete(listItem);
                     }
                     return false;
                 });
@@ -85,12 +87,12 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             // Initialise buttons
             holder.purchasedButton.setOnClickListener(v -> {
                 current.setPurchased(!holder.cardView.isChecked());
-                MainListFragment.mItemViewModel.update(current);
+                MainListFragment.mViewModel.update(current);
             });
             holder.editButton.setOnClickListener(v -> {
                 // Implement
             });
-            holder.deleteButton.setOnClickListener(v -> MainListFragment.mItemViewModel.delete(current));
+            holder.deleteButton.setOnClickListener(v -> MainListFragment.mViewModel.delete(current));
         } else {
             // Covers the case of data not being ready yet.
             holder.itemNameView.setText("No Item");

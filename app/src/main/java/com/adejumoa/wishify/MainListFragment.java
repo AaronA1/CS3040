@@ -6,8 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,40 +21,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MainListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MainListFragment extends Fragment {
 
-    protected static ItemViewModel mItemViewModel;
+    protected static ItemViewModel mViewModel;
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
 
-    public MainListFragment() {
-        // Required empty public constructor
-    }
-
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
+     * Static constructor
      * @return A new instance of fragment MainListFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static MainListFragment newInstance() {
-        MainListFragment fragment = new MainListFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
+        return new MainListFragment();
     }
 
     @Override
@@ -74,14 +51,14 @@ public class MainListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mItemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
         // Update the cached copy of the items in the adapter.
-        mItemViewModel.getAllItems().observe(getViewLifecycleOwner(), adapter::setItems);
+        mViewModel.getAllItems().observe(getViewLifecycleOwner(), adapter::setItems);
 
         // Action button functionality
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getContext(), AddItemActivity.class);
+            Intent intent = new Intent(getActivity(), AddItemActivity.class);
             startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
         });
 
@@ -105,7 +82,7 @@ public class MainListFragment extends Fragment {
                                 myItem.getName(), Toast.LENGTH_SHORT).show();
 
                         // Delete the item
-                        mItemViewModel.delete(myItem);
+                        mViewModel.delete(myItem);
                     }
                 });
         helper.attachToRecyclerView(recyclerView);
@@ -116,7 +93,7 @@ public class MainListFragment extends Fragment {
 
         if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == -1) {
             Item item = (Item) data.getSerializableExtra("Item");
-            mItemViewModel.insert(item);
+            mViewModel.insert(item);
         } else {
             Toast.makeText(
                     getContext(),

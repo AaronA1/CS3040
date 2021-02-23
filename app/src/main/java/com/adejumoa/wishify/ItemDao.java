@@ -30,4 +30,7 @@ public interface ItemDao {
 
     @Query("SELECT * from item_table LIMIT 1")
     Item[] getAnyItem();
+
+    @Query("SELECT * from item_table WHERE id = :id LIMIT 1")
+    LiveData<Item> getItem(int id);
 }

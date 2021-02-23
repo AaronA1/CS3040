@@ -23,8 +23,16 @@ public class ItemRepository {
         return allItems;
     }
 
-    public void insert (Item item) {
+    LiveData<Item> getItem(int id) {
+        return mItemDao.getItem(id);
+    }
+
+    public void insert(Item item) {
         new insertAsyncTask(mItemDao).execute(item);
+    }
+
+    public void update(Item item) {
+        new updateAsyncTask(mItemDao).execute(item);
     }
 
     public void delete(Item item)  {
@@ -49,6 +57,21 @@ public class ItemRepository {
             return null;
         }
 
+    }
+
+    private static class updateAsyncTask extends AsyncTask<Item, Void, Void> {
+
+        private ItemDao mAsyncTaskDao;
+
+        updateAsyncTask(ItemDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Item... params) {
+            mAsyncTaskDao.update(params[0]);
+            return null;
+        }
     }
 
     private static class deleteItemAsyncTask extends AsyncTask<Item, Void, Void> {

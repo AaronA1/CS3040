@@ -47,28 +47,22 @@ public class AddItemActivity extends AppCompatActivity {
         ArrayAdapter<String> adapterNew = new ArrayAdapter<>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, categories);
         ac_category.setAdapter(adapterNew);
 
-        findViewById(R.id.button_done).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent replyIntent = new Intent();
-                if (TextUtils.isEmpty(Objects.requireNonNull(itemName.getEditText()).getText())) {
-                    itemName.setError("You must enter an item name");
-                } else {
-                    String name = itemName.getEditText().getText().toString();
-                    String desc = itemDescription.getEditText().getText().toString();
-                    double price = 0.00;
-                    if (!itemPrice.getEditText().getText().toString().equals("")) {
-                        price = Double.parseDouble(itemPrice.getEditText().getText().toString());
-                    }
-                    String category = ac_category.getText().toString();
-                    Item item = new Item(name, desc, price, category);
-                    replyIntent.putExtra("Item", item);
-//                    replyIntent.putExtra(EXTRA_REPLY, name);
-//                    replyIntent.putExtra(EXTRA_REPLY_2, desc);
-//                    replyIntent.putExtra(EXTRA_REPLY_3, price);
-                    setResult(RESULT_OK, replyIntent);
-                    finish();
+        findViewById(R.id.button_done).setOnClickListener(view -> {
+            Intent replyIntent = new Intent();
+            if (TextUtils.isEmpty(Objects.requireNonNull(itemName.getEditText()).getText())) {
+                itemName.setError("You must enter an item name");
+            } else {
+                String name = itemName.getEditText().getText().toString();
+                String desc = itemDescription.getEditText().getText().toString();
+                double price = 0.00;
+                if (!itemPrice.getEditText().getText().toString().equals("")) {
+                    price = Double.parseDouble(itemPrice.getEditText().getText().toString());
                 }
+                String category = ac_category.getText().toString();
+                Item item = new Item(name, desc, price, category);
+                replyIntent.putExtra("Item", item);
+                setResult(RESULT_OK, replyIntent);
+                finish();
             }
         });
 

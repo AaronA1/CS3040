@@ -26,13 +26,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ItemViewModel mItemViewModel;
+    private ItemViewModel mViewModel;
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
 
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
 
             // Delete the existing data
-            MainListFragment.mItemViewModel.deleteAll();
+            mViewModel.deleteAll();
             return true;
         }
 
