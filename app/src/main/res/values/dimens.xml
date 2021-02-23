@@ -2,4 +2,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="default_padding">16dp</dimen>
     <dimen name="default_margin">32dp</dimen>
+    <dimen name="edit_text_width">350dp</dimen>
 </resources>

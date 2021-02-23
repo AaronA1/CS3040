@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.clear_data) {
             // Add a toast just for confirmation
-            Toast.makeText(this, "Clearing the data...",
+            Toast.makeText(this, "Emptying the list...",
                     Toast.LENGTH_SHORT).show();
 
             // Delete the existing data

@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.adejumoa.wishify.MainActivity">
+
+    <item
+        android:id="@+id/menu_mark_purchased"
+        android:orderInCategory="100"
+        android:title="@string/mark_purchased"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_edit_item"
+        android:orderInCategory="100"
+        android:title="@string/edit_item"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_delete_item"
+        android:orderInCategory="100"
+        android:title="@string/delete_item"
+        app:showAsAction="never" />
+</menu>

@@ -8,6 +8,7 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name='done'>Done</string>
+    <string name="add_fab">Add</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="item_name_hint">Name</string>
@@ -15,6 +16,14 @@
     <string name="item_price_hint">Price?</string>
     <string name="item_category">Category?</string>
     <string name="clear_all_items">Clear all Items</string>
+    <string name="mark_purchased_text">Purchased</string>
+    <string name="edit_item_text">Edit</string>
+    <string name="delete_item_text">Delete</string>
+
+    <!-- Item Menu  -->
+    <string name="mark_purchased">Mark as Purchased</string>
+    <string name="edit_item">Edit Item</string>
+    <string name="delete_item">Delete Item</string>
 
     <string-array name="categories_array">
         <item>Bicycle</item>

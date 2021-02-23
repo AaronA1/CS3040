@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -74,22 +75,14 @@ public class MainListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mItemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
-        mItemViewModel.getAllItems().observe(getViewLifecycleOwner(), new Observer<List<Item>>() {
-            @Override
-            public void onChanged(@Nullable final List<Item> items) {
-                // Update the cached copy of the words in the adapter.
-                adapter.setItems(items);
-            }
-        });
+        // Update the cached copy of the items in the adapter.
+        mItemViewModel.getAllItems().observe(getViewLifecycleOwner(), adapter::setItems);
 
         // Action button functionality
         FloatingActionButton fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), AddItemActivity.class);
-                startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
-            }
+        fab.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getContext(), AddItemActivity.class);
+            startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
         });
 
         // Adding swipe functionality
@@ -115,7 +108,6 @@ public class MainListFragment extends Fragment {
                         mItemViewModel.delete(myItem);
                     }
                 });
-
         helper.attachToRecyclerView(recyclerView);
     }
 
@@ -123,7 +115,7 @@ public class MainListFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == -1) {
-            Item item = new Item(data.getStringExtra(AddItemActivity.EXTRA_REPLY), data.getStringExtra(AddItemActivity.EXTRA_REPLY_2), data.getDoubleExtra(AddItemActivity.EXTRA_REPLY_3, 0));
+            Item item = (Item) data.getSerializableExtra("Item");
             mItemViewModel.insert(item);
         } else {
             Toast.makeText(
