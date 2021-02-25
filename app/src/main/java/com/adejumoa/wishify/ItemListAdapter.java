@@ -59,40 +59,53 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
                         .commit();
             });
 
-            // Set long click listener
-            holder.cardView.setOnLongClickListener((View.OnLongClickListener) v -> {
-                PopupMenu popupMenu = new PopupMenu(v.getContext(), holder.itemPriceView);
-                popupMenu.inflate(R.menu.item_menu);
-                popupMenu.setOnMenuItemClickListener(item -> {
+//            // Set long click listener
+//            holder.cardView.setOnLongClickListener((View.OnLongClickListener) v -> {
+//                PopupMenu popupMenu = new PopupMenu(v.getContext(), holder.itemPriceView);
+//                popupMenu.inflate(R.menu.item_menu);
+//                popupMenu.setOnMenuItemClickListener(item -> {
+//
+//                    if (item.getItemId() == R.id.menu_mark_purchased) {
+//                        Item listItem = getItemAtPosition(position);
+//                        listItem.setPurchased(true);
+//                        MainListFragment.mViewModel.update(listItem);
+//                        Toast.makeText(v.getContext(), "Marked as Purchased", Toast.LENGTH_SHORT).show();
+//                    } else if (item.getItemId() == R.id.menu_edit_item) {
+//                        // Implement
+//                    } else if (item.getItemId() == R.id.menu_delete_item) {
+//                        Item listItem = getItemAtPosition(position);
+//                        MainListFragment.mViewModel.delete(listItem);
+//                        Toast.makeText(v.getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
+//                    }
+//                    return false;
+//                });
+//                popupMenu.show();
+//                return false;
+//            });
 
-                    if (item.getItemId() == R.id.menu_mark_purchased) {
-                        Item listItem = getItemAtPosition(position);
-                        listItem.setPurchased(true);
-                        MainListFragment.mViewModel.update(listItem);
-                        Toast.makeText(v.getContext(), "Mark Purchased", Toast.LENGTH_SHORT).show();
-                    } else if (item.getItemId() == R.id.menu_edit_item) {
-                        Toast.makeText(v.getContext(), "Edit Item", Toast.LENGTH_SHORT).show();
-                    } else if (item.getItemId() == R.id.menu_delete_item) {
-                        Item listItem = getItemAtPosition(position);
-                        MainListFragment.mViewModel.delete(listItem);
-                    }
-                    return false;
-                });
-                popupMenu.show();
-                return false;
-            });
-
-            // Initialise buttons
+            // Set onClicks for buttons
             holder.purchasedButton.setOnClickListener(v -> {
-                current.setPurchased(!holder.cardView.isChecked());
+                // Toggle purchased state on press
+                boolean purchased = holder.cardView.isChecked();
+                current.setPurchased(!purchased);
                 MainListFragment.mViewModel.update(current);
+                // Show appropriate toast
+                if (purchased)
+                    Toast.makeText(v.getContext(), "Item unmarked as purchased", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(v.getContext(), "Item marked as purchased", Toast.LENGTH_SHORT).show();
             });
             holder.editButton.setOnClickListener(v -> {
+                // Start activity with edit request code
                 AppCompatActivity activity = (AppCompatActivity) holder.itemView.getContext();
                 MainListFragment mlf = (MainListFragment) activity.getSupportFragmentManager().getFragments().get(0);
                 mlf.addOrEditItem(EDIT_ITEM_ACTIVITY_REQUEST_CODE, current);
             });
-            holder.deleteButton.setOnClickListener(v -> MainListFragment.mViewModel.delete(current));
+            holder.deleteButton.setOnClickListener(v -> {
+                // Delete item and show toast
+                MainListFragment.mViewModel.delete(current);
+                Toast.makeText(v.getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
+            });
         } else {
             // Covers the case of data not being ready yet.
             holder.itemNameView.setText("No Item");

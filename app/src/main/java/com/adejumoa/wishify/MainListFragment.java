@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainListFragment extends Fragment {
 
@@ -74,12 +75,9 @@ public class MainListFragment extends Fragment {
                     public void onSwiped(RecyclerView.ViewHolder viewHolder,
                                          int direction) {
                         int position = viewHolder.getAdapterPosition();
-                        Item myItem = adapter.getItemAtPosition(position);
-                        Toast.makeText(getContext(), "Deleting " +
-                                myItem.getName(), Toast.LENGTH_SHORT).show();
-
-                        // Delete the item
-                        mViewModel.delete(myItem);
+                        Item item = adapter.getItemAtPosition(position);
+                        mViewModel.removeItem(position);
+                        showUndoSnackbar(view);
                     }
                 });
         helper.attachToRecyclerView(recyclerView);
@@ -90,6 +88,20 @@ public class MainListFragment extends Fragment {
         if (extra != null)
             intent.putExtra("Item", extra);
         startActivityForResult(intent, reqCode);
+    }
+
+    private void showUndoSnackbar(View view) {
+        Snackbar snackbar = Snackbar.make(view, "Undo?",
+                Snackbar.LENGTH_LONG);
+        snackbar.setAction("Yes", v -> mViewModel.restoreRemoved());
+        snackbar.addCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_TIMEOUT)
+                    mViewModel.deleteRemoved();
+            }
+        });
+        snackbar.show();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

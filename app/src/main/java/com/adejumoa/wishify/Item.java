@@ -29,6 +29,12 @@ public class Item implements Serializable {
     @ColumnInfo(name = "purchased")
     private boolean purchased = false;
 
+    @ColumnInfo(name = "created_at")
+    private long created_at;
+
+    @ColumnInfo(name = "updated_at")
+    private long updated_at;
+
     public Item(@NonNull String name, String description, double price, String category) {
         this.name = name;
         this.description = description;
@@ -82,6 +88,22 @@ public class Item implements Serializable {
 
     public void setPurchased(boolean purchased) {
         this.purchased = purchased;
+    }
+
+    public long getCreated_at() {
+        return this.created_at;
+    }
+
+    public void setCreated_at(long created_at) {
+        this.created_at = created_at;
+    }
+
+    public long getUpdated_at() {
+        return this.updated_at;
+    }
+
+    public void setUpdated_at(long updated_at) {
+        this.updated_at = updated_at;
     }
 
 }

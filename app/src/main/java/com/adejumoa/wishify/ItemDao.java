@@ -25,7 +25,7 @@ public interface ItemDao {
     @Query("DELETE FROM item_table")
     void deleteAll();
 
-    @Query("SELECT * from item_table ORDER BY name ASC")
+    @Query("SELECT * from item_table ORDER BY updated_at DESC")
     LiveData<List<Item>> getAllItems();
 
     @Query("SELECT * from item_table LIMIT 1")
