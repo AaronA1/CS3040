@@ -16,6 +16,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.w3c.dom.Text;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 public class AddItemActivity extends AppCompatActivity {
@@ -42,6 +43,14 @@ public class AddItemActivity extends AppCompatActivity {
         itemPrice = findViewById(R.id.item_price);
         ac_category = findViewById(R.id.ac_category);
 
+        if (getIntent().hasExtra("Item")) {
+            Item item = (Item) getIntent().getSerializableExtra("Item");
+            itemName.getEditText().setText(item.getName());
+            itemDescription.getEditText().setText(item.getDescription());
+            itemPrice.getEditText().setText(String.valueOf(item.getPrice()));
+            ac_category.setText(item.getCategory());
+        }
+
         String[] categories = new String[] {"Bicycle", "Book", "Clothing", "Electronics", "Flowers", "Jewellery", "Other"};
 
         ArrayAdapter<String> adapterNew = new ArrayAdapter<>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, categories);
@@ -60,6 +69,13 @@ public class AddItemActivity extends AppCompatActivity {
                 }
                 String category = ac_category.getText().toString();
                 Item item = new Item(name, desc, price, category);
+                if (getIntent().hasExtra("Item")) {
+                    item = (Item) getIntent().getSerializableExtra("Item");
+                    item.setName(name);
+                    item.setDescription(desc);
+                    item.setCategory(category);
+                    item.setPrice(price);
+                }
                 replyIntent.putExtra("Item", item);
                 setResult(RESULT_OK, replyIntent);
                 finish();

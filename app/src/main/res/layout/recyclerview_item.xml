@@ -8,6 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical"
+    android:layout_marginBottom="10dp"
     app:cardBackgroundColor="@color/cardview_light_background"
     app:checkedIcon="@drawable/shopping_bag">
 

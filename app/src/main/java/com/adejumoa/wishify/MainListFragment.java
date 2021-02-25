@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,12 +18,11 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.List;
-
 public class MainListFragment extends Fragment {
 
     protected static ItemViewModel mViewModel;
-    public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
+    public static final int NEW_ITEM_ACTIVITY_REQUEST_CODE = 1;
+    public static final int EDIT_ITEM_ACTIVITY_REQUEST_CODE = 2;
 
     /**
      * Static constructor
@@ -58,8 +56,7 @@ public class MainListFragment extends Fragment {
         // Action button functionality
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), AddItemActivity.class);
-            startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
+            addOrEditItem(NEW_ITEM_ACTIVITY_REQUEST_CODE, null);
         });
 
         // Adding swipe functionality
@@ -88,16 +85,26 @@ public class MainListFragment extends Fragment {
         helper.attachToRecyclerView(recyclerView);
     }
 
+    public void addOrEditItem(int reqCode, @Nullable Item extra) {
+        Intent intent = new Intent(getActivity(), AddItemActivity.class);
+        if (extra != null)
+            intent.putExtra("Item", extra);
+        startActivityForResult(intent, reqCode);
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == -1) {
+        if (requestCode == NEW_ITEM_ACTIVITY_REQUEST_CODE && resultCode == -1) {
             Item item = (Item) data.getSerializableExtra("Item");
             mViewModel.insert(item);
+        } else if (requestCode == EDIT_ITEM_ACTIVITY_REQUEST_CODE && resultCode == -1) {
+            Item item = (Item) data.getSerializableExtra("Item");
+            mViewModel.update(item);
         } else {
             Toast.makeText(
                     getContext(),
-                    "Item not saved",
+                    "No changes made",
                     Toast.LENGTH_SHORT).show();
         }
     }

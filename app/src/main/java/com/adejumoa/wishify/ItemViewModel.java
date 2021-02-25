@@ -27,6 +27,7 @@ public class ItemViewModel extends AndroidViewModel {
     public void selectItem(Item item) {
         selectedItem.setValue(item);
     }
+
     public LiveData<Item> getSelectedItem() {
         return selectedItem;
     }

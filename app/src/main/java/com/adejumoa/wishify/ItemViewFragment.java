@@ -18,7 +18,6 @@ import android.widget.TextView;
 public class ItemViewFragment extends Fragment {
 
     private ItemViewModel mViewModel;
-    private Item item;
 
     private TextView itemName;
     private TextView itemDescription;

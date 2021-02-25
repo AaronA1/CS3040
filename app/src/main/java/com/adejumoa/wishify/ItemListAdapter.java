@@ -1,23 +1,18 @@
 package com.adejumoa.wishify;
 
 import android.content.Context;
-import android.content.Intent;
+
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
@@ -25,10 +20,12 @@ import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
-public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemViewHolder>  {
+public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemViewHolder> {
 
     private final LayoutInflater mInflater;
     private List<Item> mItems;
+    public static final int EDIT_ITEM_ACTIVITY_REQUEST_CODE = 2;
+
 
     ItemListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
@@ -48,6 +45,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             holder.cardView.setChecked(current.isPurchased());
             holder.itemNameView.setText(current.getName());
             holder.itemDescriptionView.setText(current.getDescription());
+            holder.itemCategoryView.setText(current.getCategory());
             holder.itemPriceView.setText("£" + current.getPrice());
 
             // Set short click listener
@@ -57,7 +55,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
                 activity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_container, ItemViewFragment.newInstance())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack("main")
+                        .addToBackStack(null)
                         .commit();
             });
 
@@ -67,7 +65,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
                 popupMenu.inflate(R.menu.item_menu);
                 popupMenu.setOnMenuItemClickListener(item -> {
 
-                    if(item.getItemId() == R.id.menu_mark_purchased) {
+                    if (item.getItemId() == R.id.menu_mark_purchased) {
                         Item listItem = getItemAtPosition(position);
                         listItem.setPurchased(true);
                         MainListFragment.mViewModel.update(listItem);
@@ -90,7 +88,9 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
                 MainListFragment.mViewModel.update(current);
             });
             holder.editButton.setOnClickListener(v -> {
-                // Implement
+                AppCompatActivity activity = (AppCompatActivity) holder.itemView.getContext();
+                MainListFragment mlf = (MainListFragment) activity.getSupportFragmentManager().getFragments().get(0);
+                mlf.addOrEditItem(EDIT_ITEM_ACTIVITY_REQUEST_CODE, current);
             });
             holder.deleteButton.setOnClickListener(v -> MainListFragment.mViewModel.delete(current));
         } else {
@@ -111,7 +111,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         else return 0;
     }
 
-    public Item getItemAtPosition (int position) {
+    public Item getItemAtPosition(int position) {
         return mItems.get(position);
     }
 
@@ -120,6 +120,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         private final MaterialCardView cardView;
         private final TextView itemNameView;
         private final TextView itemDescriptionView;
+        private final TextView itemCategoryView;
         private final TextView itemPriceView;
         private final MaterialButton purchasedButton;
         private final MaterialButton editButton;
@@ -131,6 +132,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             cardView = itemView.findViewById(R.id.item_card);
             itemNameView = itemView.findViewById(R.id.itemNameTV);
             itemDescriptionView = itemView.findViewById(R.id.itemDescTV);
+            itemCategoryView = itemView.findViewById(R.id.itemCategoryTV);
             itemPriceView = itemView.findViewById(R.id.itemPriceTV);
             purchasedButton = itemView.findViewById(R.id.purchased_button);
             editButton = itemView.findViewById(R.id.edit_button);
