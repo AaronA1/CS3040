@@ -81,4 +81,5 @@ lint/tmp/
 
 # DS Store
 *.DS_Store
+*google_maps_api.xml
 
