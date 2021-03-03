@@ -25,6 +25,18 @@
     <string name="edit_item">Edit Item</string>
     <string name="delete_item">Delete Item</string>
 
+    <!-- Search -->
+    <string name="search_view_hint">Search your items</string>
+    
+    <!-- Map -->
+    <string name="service_not_available">Service not available</string>
+    <string name="invalid_lat_long_used">Invalid lat/long used</string>
+    <string name="no_location">There is no location found</string>
+    <string name="no_address_found">No address found</string>
+    <string name="location_text">"Latitude: %1$.4f \nLongitude: %2$.4f \nTimestamp: %3$tr"</string>
+    <string name="address_text">"Address: %1$s \nTimestamp: %2$tr"</string>
+
+
     <string-array name="categories_array">
         <item>Bicycle</item>
         <item>Book</item>

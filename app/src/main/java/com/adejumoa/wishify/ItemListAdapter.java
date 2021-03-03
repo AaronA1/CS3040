@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,12 +20,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemViewHolder> {
 
     private final LayoutInflater mInflater;
     private List<Item> mItems;
+    private List<Item> mItemsCopy;
     public static final int EDIT_ITEM_ACTIVITY_REQUEST_CODE = 2;
 
 
@@ -54,8 +59,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
                 AppCompatActivity activity = (AppCompatActivity) holder.itemView.getContext();
                 activity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_container, ItemViewFragment.newInstance())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
+                        .addToBackStack("Main")
+                        .setReorderingAllowed(true)
                         .commit();
             });
 
@@ -114,8 +119,10 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
 
     void setItems(List<Item> items) {
         mItems = items;
+        mItemsCopy = new ArrayList<>(mItems);
         notifyDataSetChanged();
     }
+
 
     @Override
     public int getItemCount() {
@@ -126,6 +133,21 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
 
     public Item getItemAtPosition(int position) {
         return mItems.get(position);
+    }
+
+    public void filter(String text) {
+        mItems.clear();
+        if(text.isEmpty()){
+            mItems.addAll(mItemsCopy);
+        } else {
+            text = text.toLowerCase();
+            for(Item item: mItemsCopy){
+                if(item.getName().toLowerCase().contains(text)){
+                    mItems.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {

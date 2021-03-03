@@ -21,8 +21,8 @@ public class ItemViewFragment extends Fragment {
 
     private TextView itemName;
     private TextView itemDescription;
-    private TextView itemPrice;
     private TextView itemCategory;
+    private TextView itemPrice;
 
     public static ItemViewFragment newInstance() {
         return new ItemViewFragment();
@@ -39,7 +39,13 @@ public class ItemViewFragment extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
         mViewModel.getSelectedItem().observe(getViewLifecycleOwner(), item -> {
             itemName = view.findViewById(R.id.itemView_name);
+            itemDescription = view.findViewById(R.id.itemView_desc);
+            itemCategory = view.findViewById(R.id.itemView_cat);
+            itemPrice = view.findViewById(R.id.itemView_price);
             itemName.setText(item.getName());
+            itemDescription.setText(item.getDescription());
+            itemCategory.setText(item.getCategory());
+            itemPrice.setText(String.valueOf(item.getPrice()));
         });
     }
 

@@ -3,17 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/cardview_light_background"
     tools:context=".MainListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/recyclerview_item" />
+        android:layout_height="match_parent">
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:iconifiedByDefault="false"
+            android:inputType="text"
+            app:queryHint="Search your items">
+        </androidx.appcompat.widget.SearchView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:scrollbars="vertical"
+            android:layout_below="@+id/search_bar"
+            tools:listitem="@layout/recyclerview_item" />
+    </RelativeLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -23,4 +38,5 @@
         android:backgroundTint="@color/colorPrimary"
         android:contentDescription="@string/add_new_item"
         android:src="@drawable/ic_add_for_fab" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

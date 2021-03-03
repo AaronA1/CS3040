@@ -30,7 +30,7 @@
                 android:textSize="30sp" />
 
             <TextView
-                android:id="@+id/itemDescTV"
+                android:id="@+id/itemView_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -39,7 +39,7 @@
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/itemCategoryTV"
+                android:id="@+id/itemView_cat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -48,7 +48,7 @@
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/itemPriceTV"
+                android:id="@+id/itemView_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"

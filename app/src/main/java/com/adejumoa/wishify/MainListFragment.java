@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -22,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar;
 public class MainListFragment extends Fragment {
 
     protected static ItemViewModel mViewModel;
+    protected ItemListAdapter adapter;
     public static final int NEW_ITEM_ACTIVITY_REQUEST_CODE = 1;
     public static final int EDIT_ITEM_ACTIVITY_REQUEST_CODE = 2;
 
@@ -46,7 +48,7 @@ public class MainListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_list);
-        final ItemListAdapter adapter = new ItemListAdapter(getContext());
+        adapter = new ItemListAdapter(getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -77,10 +79,33 @@ public class MainListFragment extends Fragment {
                         int position = viewHolder.getAdapterPosition();
                         Item item = adapter.getItemAtPosition(position);
                         mViewModel.removeItem(position);
+                        adapter.notifyDataSetChanged();
                         showUndoSnackbar(view);
                     }
                 });
         helper.attachToRecyclerView(recyclerView);
+
+        SearchView searchView = view.findViewById(R.id.search_bar);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.filter(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filter(newText);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        mViewModel.getAllItems().observe(getViewLifecycleOwner(), adapter::setItems);
     }
 
     public void addOrEditItem(int reqCode, @Nullable Item extra) {
@@ -93,12 +118,16 @@ public class MainListFragment extends Fragment {
     private void showUndoSnackbar(View view) {
         Snackbar snackbar = Snackbar.make(view, "Undo?",
                 Snackbar.LENGTH_LONG);
-        snackbar.setAction("Yes", v -> mViewModel.restoreRemoved());
+        snackbar.setAction("Yes", v -> {
+            mViewModel.restoreRemoved();
+            adapter.notifyDataSetChanged();
+        });
         snackbar.addCallback(new Snackbar.Callback() {
             @Override
             public void onDismissed(Snackbar transientBottomBar, int event) {
                 if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_TIMEOUT)
                     mViewModel.deleteRemoved();
+                adapter.notifyDataSetChanged();
             }
         });
         snackbar.show();
