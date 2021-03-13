@@ -47,10 +47,6 @@ public class ItemViewModel extends AndroidViewModel {
         return selectedItem;
     }
 
-    public LiveData<Item> getItem(int id) {
-        return mRepository.getItem(id);
-    }
-
     public void insert(Item item) {
         item.setCreated_at(System.currentTimeMillis());
         item.setUpdated_at(System.currentTimeMillis());

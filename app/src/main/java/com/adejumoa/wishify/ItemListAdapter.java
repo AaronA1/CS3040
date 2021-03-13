@@ -31,7 +31,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
     private List<Item> mItemsCopy;
     public static final int EDIT_ITEM_ACTIVITY_REQUEST_CODE = 2;
 
-
     ItemListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
     }
@@ -50,7 +49,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             holder.cardView.setChecked(current.isPurchased());
             holder.itemNameView.setText(current.getName());
             holder.itemDescriptionView.setText(current.getDescription());
-            holder.itemCategoryView.setText(current.getCategory());
             holder.itemPriceView.setText("£" + current.getPrice());
 
             // Set short click listener
@@ -63,30 +61,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
                         .setReorderingAllowed(true)
                         .commit();
             });
-
-//            // Set long click listener
-//            holder.cardView.setOnLongClickListener((View.OnLongClickListener) v -> {
-//                PopupMenu popupMenu = new PopupMenu(v.getContext(), holder.itemPriceView);
-//                popupMenu.inflate(R.menu.item_menu);
-//                popupMenu.setOnMenuItemClickListener(item -> {
-//
-//                    if (item.getItemId() == R.id.menu_mark_purchased) {
-//                        Item listItem = getItemAtPosition(position);
-//                        listItem.setPurchased(true);
-//                        MainListFragment.mViewModel.update(listItem);
-//                        Toast.makeText(v.getContext(), "Marked as Purchased", Toast.LENGTH_SHORT).show();
-//                    } else if (item.getItemId() == R.id.menu_edit_item) {
-//                        // Implement
-//                    } else if (item.getItemId() == R.id.menu_delete_item) {
-//                        Item listItem = getItemAtPosition(position);
-//                        MainListFragment.mViewModel.delete(listItem);
-//                        Toast.makeText(v.getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
-//                    }
-//                    return false;
-//                });
-//                popupMenu.show();
-//                return false;
-//            });
 
             // Set onClicks for buttons
             holder.purchasedButton.setOnClickListener(v -> {
@@ -136,18 +110,20 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
     }
 
     public void filter(String text) {
-        mItems.clear();
-        if(text.isEmpty()){
-            mItems.addAll(mItemsCopy);
-        } else {
-            text = text.toLowerCase();
-            for(Item item: mItemsCopy){
-                if(item.getName().toLowerCase().contains(text)){
-                    mItems.add(item);
+        if(mItems != null) {
+            mItems.clear();
+            if(text.isEmpty()){
+                mItems.addAll(mItemsCopy);
+            } else {
+                text = text.toLowerCase();
+                for(Item item: mItemsCopy){
+                    if(item.getName().toLowerCase().contains(text)){
+                        mItems.add(item);
+                    }
                 }
             }
+            notifyDataSetChanged();
         }
-        notifyDataSetChanged();
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -155,7 +131,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         private final MaterialCardView cardView;
         private final TextView itemNameView;
         private final TextView itemDescriptionView;
-        private final TextView itemCategoryView;
         private final TextView itemPriceView;
         private final MaterialButton purchasedButton;
         private final MaterialButton editButton;
@@ -167,7 +142,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             cardView = itemView.findViewById(R.id.item_card);
             itemNameView = itemView.findViewById(R.id.itemNameTV);
             itemDescriptionView = itemView.findViewById(R.id.itemDescTV);
-            itemCategoryView = itemView.findViewById(R.id.itemCategoryTV);
             itemPriceView = itemView.findViewById(R.id.itemPriceTV);
             purchasedButton = itemView.findViewById(R.id.purchased_button);
             editButton = itemView.findViewById(R.id.edit_button);

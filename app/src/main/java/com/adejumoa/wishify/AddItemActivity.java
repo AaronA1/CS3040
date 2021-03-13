@@ -2,86 +2,28 @@ package com.adejumoa.wishify;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 
-import com.google.android.material.textfield.TextInputLayout;
-
-import org.w3c.dom.Text;
-
-import java.io.Serializable;
-import java.util.Objects;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.net.PlacesClient;
 
 public class AddItemActivity extends AppCompatActivity {
-
-    private TextInputLayout itemName;
-    private TextInputLayout itemDescription;
-    private TextInputLayout itemPrice;
-    private AutoCompleteTextView ac_category;
-
-    public static final String EXTRA_REPLY =
-            "com.example.android.roomitem.REPLY";
-    public static final String EXTRA_REPLY_2 =
-            "com.example.android.roomitem2.REPLY";
-    public static final String EXTRA_REPLY_3 =
-            "com.example.android.roomitem3.REPLY";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
-        itemName = findViewById(R.id.item_name);
-        itemDescription = findViewById(R.id.item_desc);
-        itemPrice = findViewById(R.id.item_price);
-        ac_category = findViewById(R.id.ac_category);
+        // Initialize the SDK
+        Places.initialize(getApplicationContext(), getResources().getString(R.string.google_maps_key));
+        // Create a new PlacesClient instance
+        PlacesClient placesClient = Places.createClient(this);
 
-        if (getIntent().hasExtra("Item")) {
-            Item item = (Item) getIntent().getSerializableExtra("Item");
-            itemName.getEditText().setText(item.getName());
-            itemDescription.getEditText().setText(item.getDescription());
-            itemPrice.getEditText().setText(String.valueOf(item.getPrice()));
-            ac_category.setText(item.getCategory());
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.add_item_container, AddItemFragment.newInstance())
+                    .commit();
         }
-
-        String[] categories = new String[] {"Bicycle", "Book", "Clothing", "Electronics", "Flowers", "Jewellery", "Other"};
-
-        ArrayAdapter<String> adapterNew = new ArrayAdapter<>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, categories);
-        ac_category.setAdapter(adapterNew);
-
-        findViewById(R.id.button_done).setOnClickListener(view -> {
-            Intent replyIntent = new Intent();
-            if (TextUtils.isEmpty(Objects.requireNonNull(itemName.getEditText()).getText())) {
-                itemName.setError("You must enter an item name");
-            } else {
-                String name = itemName.getEditText().getText().toString();
-                String desc = itemDescription.getEditText().getText().toString();
-                double price = 0.00;
-                if (!itemPrice.getEditText().getText().toString().equals("")) {
-                    price = Double.parseDouble(itemPrice.getEditText().getText().toString());
-                }
-                String category = ac_category.getText().toString();
-                Item item = new Item(name, desc, price, category);
-                if (getIntent().hasExtra("Item")) {
-                    item = (Item) getIntent().getSerializableExtra("Item");
-                    item.setName(name);
-                    item.setDescription(desc);
-                    item.setCategory(category);
-                    item.setPrice(price);
-                }
-                replyIntent.putExtra("Item", item);
-                setResult(RESULT_OK, replyIntent);
-                finish();
-            }
-        });
-
     }
 
 }

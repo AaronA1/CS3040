@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_view_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ItemViewFragment">
 
-    <com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/item_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,11 +20,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="50dp">
-            <!-- Title, secondary and supporting text -->
             <TextView
                 android:id="@+id/itemView_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="@string/item_name_hint"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="@color/black"
@@ -39,15 +40,6 @@
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/itemView_cat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/item_category"
-                android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@color/black" />
-
-            <TextView
                 android:id="@+id/itemView_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,6 +48,48 @@
                 android:text="@string/item_price_hint"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/itemView_placeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/item_desc_hint"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/itemView_placeAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/item_desc_hint"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/black" />
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mini_map"
+                android:layout_width="fill_parent"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp">
+
+            </com.google.android.gms.maps.MapView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/button_expand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@string/expand_map" />
+            </LinearLayout>
+
 
         </LinearLayout>
 

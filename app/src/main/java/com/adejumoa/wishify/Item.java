@@ -1,6 +1,7 @@
 package com.adejumoa.wishify;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -23,8 +24,21 @@ public class Item implements Serializable {
     @ColumnInfo(name = "price")
     private double price;
 
-    @ColumnInfo(name = "category")
-    private String category;
+    @Nullable
+    @ColumnInfo(name = "placeName")
+    private String placeName;
+
+    @Nullable
+    @ColumnInfo(name = "placeLat")
+    private double placeLat;
+
+    @Nullable
+    @ColumnInfo(name = "placeLng")
+    private double placeLng;
+
+    @Nullable
+    @ColumnInfo(name = "placeAddress")
+    private String placeAddress;
 
     @ColumnInfo(name = "purchased")
     private boolean purchased = false;
@@ -35,11 +49,15 @@ public class Item implements Serializable {
     @ColumnInfo(name = "updated_at")
     private long updated_at;
 
-    public Item(@NonNull String name, String description, double price, String category) {
+    public Item(@NonNull String name, @Nullable String description, double price,
+                @Nullable String placeName, double placeLat, double placeLng, @Nullable String placeAddress) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.category = category;
+        this.placeName = placeName;
+        this.placeLat = placeLat;
+        this.placeLng = placeLng;
+        this.placeAddress = placeAddress;
     }
 
     public int getId() {
@@ -74,12 +92,40 @@ public class Item implements Serializable {
         this.price = price;
     }
 
-    public String getCategory() {
-        return this.category;
+    @Nullable
+    public String getPlaceName() {
+        return this.placeName;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
+    }
+
+    @Nullable
+    public double getPlaceLat() {
+        return this.placeLat;
+    }
+
+    public void setPlaceLat(double placeLat) {
+        this.placeLat = placeLat;
+    }
+
+    @Nullable
+    public double getPlaceLng() {
+        return this.placeLng;
+    }
+
+    public void setPlaceLng(double placeLng) {
+        this.placeLng = placeLng;
+    }
+
+    @Nullable
+    public String getPlaceAddress() {
+        return this.placeAddress;
+    }
+
+    public void setPlaceAddress(String placeAddress) {
+        this.placeAddress = placeAddress;
     }
 
     public boolean isPurchased() {

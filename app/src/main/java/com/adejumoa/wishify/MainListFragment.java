@@ -31,7 +31,6 @@ public class MainListFragment extends Fragment {
      * Static constructor
      * @return A new instance of fragment MainListFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static MainListFragment newInstance() {
         return new MainListFragment();
     }
@@ -100,11 +99,25 @@ public class MainListFragment extends Fragment {
                 return true;
             }
         });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                adapter.filter("");
+                return true;
+            }
+        });
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
+        mViewModel.getAllItems().observe(getViewLifecycleOwner(), adapter::setItems);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mViewModel.getAllItems().observe(getViewLifecycleOwner(), adapter::setItems);
     }
 
