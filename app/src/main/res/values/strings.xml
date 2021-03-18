@@ -25,6 +25,11 @@
     <string name="mark_purchased_text">Purchased</string>
     <string name="edit_item_text">Edit</string>
     <string name="delete_item_text">Delete</string>
+    <string name="empty_list_text">Your list is empty!\nAdd an item using the button below</string>
+
+    <!-- Item View -->
+    <string name="placeholder">This is some placeholder text</string>
+    <string name="price_format">£%1$.2f</string>
 
     <!-- Item Menu  -->
     <string name="mark_purchased">Mark as Purchased</string>

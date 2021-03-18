@@ -49,7 +49,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             holder.cardView.setChecked(current.isPurchased());
             holder.itemNameView.setText(current.getName());
             holder.itemDescriptionView.setText(current.getDescription());
-            holder.itemPriceView.setText("£" + current.getPrice());
+//            holder.itemPriceView.setText("£" + current.getPrice());
 
             // Set short click listener
             holder.cardView.setOnClickListener(v -> {
@@ -131,7 +131,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         private final MaterialCardView cardView;
         private final TextView itemNameView;
         private final TextView itemDescriptionView;
-        private final TextView itemPriceView;
+//        private final TextView itemPriceView;
         private final MaterialButton purchasedButton;
         private final MaterialButton editButton;
         private final MaterialButton deleteButton;
@@ -142,7 +142,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             cardView = itemView.findViewById(R.id.item_card);
             itemNameView = itemView.findViewById(R.id.itemNameTV);
             itemDescriptionView = itemView.findViewById(R.id.itemDescTV);
-            itemPriceView = itemView.findViewById(R.id.itemPriceTV);
+//            itemPriceView = itemView.findViewById(R.id.itemPriceTV);
             purchasedButton = itemView.findViewById(R.id.purchased_button);
             editButton = itemView.findViewById(R.id.edit_button);
             deleteButton = itemView.findViewById(R.id.delete_button);

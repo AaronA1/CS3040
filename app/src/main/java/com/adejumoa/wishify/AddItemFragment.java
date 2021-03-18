@@ -93,17 +93,27 @@ public class AddItemFragment extends Fragment {
                 if (!itemPrice.getEditText().getText().toString().equals("")) {
                     price = Double.parseDouble(itemPrice.getEditText().getText().toString());
                 }
-                LatLng latlng = currentPlace.getLatLng();
-                Item item = new Item(name, desc, price, currentPlace.getName(), latlng.latitude, latlng.longitude, currentPlace.getAddress());
+                Item item;
+                LatLng latlng = new LatLng(0, 0);
+                if (currentPlace == null) {
+                    item = new Item(name, desc, price, null, 0, 0, null);
+                } else {
+                    latlng = currentPlace.getLatLng();
+                    item = new Item(name, desc, price, currentPlace.getName(), latlng.latitude, latlng.longitude, currentPlace.getAddress());
+                }
+
+
                 if (activity.getIntent().hasExtra("Item")) {
                     item = (Item) activity.getIntent().getSerializableExtra("Item");
                     item.setName(name);
                     item.setDescription(desc);
                     item.setPrice(price);
-                    item.setPlaceName(currentPlace.getName());
-                    item.setPlaceLat(latlng.latitude);
-                    item.setPlaceLng(latlng.longitude);
-                    item.setPlaceAddress(currentPlace.getAddress());
+                    if(currentPlace != null) {
+                        item.setPlaceName(currentPlace.getName());
+                        item.setPlaceLat(latlng.latitude);
+                        item.setPlaceLng(latlng.longitude);
+                        item.setPlaceAddress(currentPlace.getAddress());
+                    }
                 }
                 replyIntent.putExtra("Item", item);
                 activity.setResult(Activity.RESULT_OK, replyIntent);
@@ -119,6 +129,7 @@ public class AddItemFragment extends Fragment {
                 getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
         // Specify the types of place data to return.
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS));
+        autocompleteFragment.setCountry("GB");
 
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
