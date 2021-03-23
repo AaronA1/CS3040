@@ -21,9 +21,6 @@ public abstract class ItemRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             ItemRoomDatabase.class, "item_database")
-                            // Wipes and rebuilds instead of migrating
-                            // if no Migration object.
-                            // Migration is not part of this practical.
                             .fallbackToDestructiveMigration()
                             .addCallback(sRoomDatabaseCallback)
                             .build();
@@ -46,9 +43,6 @@ public abstract class ItemRoomDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
         private final ItemDao mDao;
-        String[] items = {"Dolphin", "Crocodile", "Cobra", "Wolf", "Bird"};
-        String[] descriptions = {"Cousin to a shark", "Snappy snapper", "Venomous Villain", "Awooooh", "Chirpy"};
-        double[] prices = {20.99, 105.24, 40.19, 0.00, 3000.01};
 
         PopulateDbAsync(ItemRoomDatabase db) {
             mDao = db.itemDao();

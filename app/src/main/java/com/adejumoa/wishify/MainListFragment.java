@@ -144,7 +144,7 @@ public class MainListFragment extends Fragment {
     }
 
     public void addOrEditItem(int reqCode, @Nullable Item extra) {
-        Intent intent = new Intent(getActivity(), AddItemActivity.class);
+        Intent intent = new Intent(getContext(), AddItemActivity.class);
         if (extra != null)
             intent.putExtra("Item", extra);
         startActivityForResult(intent, reqCode);
