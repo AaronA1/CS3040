@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -36,10 +37,11 @@ public class MainListFragment extends Fragment {
     protected static ItemViewModel mViewModel;
     protected ItemListAdapter adapter;
     private SensorManager mSensorManager;
+    private SearchView searchView;
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
-    private AlertDialog dialog;
+    private AlertDialog deleteDialog;
     public static final int NEW_ITEM_ACTIVITY_REQUEST_CODE = 1;
     public static final int EDIT_ITEM_ACTIVITY_REQUEST_CODE = 2;
 
@@ -54,6 +56,8 @@ public class MainListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Sensor setup for gesture
         mSensorManager = (SensorManager) requireActivity().getSystemService(Context.SENSOR_SERVICE);
         Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
@@ -61,7 +65,8 @@ public class MainListFragment extends Fragment {
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
 
-        dialog = buildDialog();
+        // Build delete all items dialog
+        deleteDialog = buildDialog();
     }
 
     @Override
@@ -80,12 +85,10 @@ public class MainListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mViewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-        // Update the cached copy of the items in the adapter.
         TextView tv = view.findViewById(R.id.empty_list_tv);
-        tv.setText(R.string.empty_list_text);
-        tv.setVisibility(View.INVISIBLE);
 
+        // Update the cached copy of the items in the adapter.
+        mViewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
         mViewModel.getAllItems().observe(getViewLifecycleOwner(), items -> {
             if (items.isEmpty()) {
                 tv.setVisibility(View.VISIBLE);
@@ -123,7 +126,7 @@ public class MainListFragment extends Fragment {
                 });
         helper.attachToRecyclerView(recyclerView);
 
-        SearchView searchView = view.findViewById(R.id.search_bar);
+        searchView = view.findViewById(R.id.search_bar);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -159,7 +162,6 @@ public class MainListFragment extends Fragment {
             public void onDismissed(Snackbar transientBottomBar, int event) {
                 if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_TIMEOUT)
                     mViewModel.deleteRemoved();
-                adapter.notifyDataSetChanged();
             }
         });
         snackbar.show();
@@ -193,10 +195,10 @@ public class MainListFragment extends Fragment {
             float delta = mAccelCurrent - mAccelLast;
             mAccel = mAccel * 0.9f + delta;
             if (mAccel > 12) {
-                if (mViewModel.getAllItems().getValue().isEmpty()) {
+                if (adapter.getItemCount() == 0) {
                     Toast.makeText(getContext(), "List already empty", Toast.LENGTH_SHORT).show();
                 } else {
-                    dialog.show();
+                    deleteDialog.show();
                 }
             }
         }
@@ -208,7 +210,6 @@ public class MainListFragment extends Fragment {
     public AlertDialog buildDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
 
-        // 2. Chain together various setter methods to set the dialog characteristics
         builder.setMessage(R.string.dialog_message)
                 .setTitle(R.string.dialog_title);
 
@@ -231,15 +232,16 @@ public class MainListFragment extends Fragment {
 
     @Override
     public void onResume() {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
-        mViewModel.getAllItems().observe(getViewLifecycleOwner(), adapter::setItems);
     }
 
     @Override
     public void onPause() {
         mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
+        searchView.onActionViewCollapsed();
     }
 }

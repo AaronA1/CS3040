@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -24,11 +25,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.Arrays;
 import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AddItemFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AddItemFragment extends Fragment {
 
     private TextInputLayout itemName;
@@ -50,9 +46,6 @@ public class AddItemFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
     }
 
     @Override
@@ -72,6 +65,7 @@ public class AddItemFragment extends Fragment {
 
         Activity activity = requireActivity();
         if (activity.getIntent().hasExtra("Item")) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Edit Item");
             Item item = (Item) activity.getIntent().getSerializableExtra("Item");
             itemName.getEditText().setText(item.getName());
             itemDescription.getEditText().setText(item.getDescription());
@@ -129,7 +123,8 @@ public class AddItemFragment extends Fragment {
                 getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
         // Specify the types of place data to return.
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS));
-        autocompleteFragment.setCountry("GB");
+        autocompleteFragment.setHint("Search for a place");
+
 
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {

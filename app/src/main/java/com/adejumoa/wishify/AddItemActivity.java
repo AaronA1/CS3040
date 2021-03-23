@@ -14,6 +14,8 @@ public class AddItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
+        getSupportActionBar().setTitle("New Item");
+
         // Initialize the SDK
         Places.initialize(getApplicationContext(), getResources().getString(R.string.google_maps_key));
         // Create a new PlacesClient instance

@@ -1,5 +1,6 @@
 package com.adejumoa.wishify;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -51,6 +52,7 @@ public class ItemViewFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
         mViewModel.getSelectedItem().observe(getViewLifecycleOwner(), item -> {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("View Item");
             TextView itemName = view.findViewById(R.id.itemView_name);
             TextView itemDescription = view.findViewById(R.id.itemView_desc);
             TextView itemPrice = view.findViewById(R.id.itemView_price);

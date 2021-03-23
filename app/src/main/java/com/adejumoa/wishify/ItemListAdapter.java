@@ -49,9 +49,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             holder.cardView.setChecked(current.isPurchased());
             holder.itemNameView.setText(current.getName());
             holder.itemDescriptionView.setText(current.getDescription());
-//            holder.itemPriceView.setText("£" + current.getPrice());
 
-            // Set short click listener
+            // Set cardview onclick listener
             holder.cardView.setOnClickListener(v -> {
                 MainListFragment.mViewModel.selectItem(current);
                 AppCompatActivity activity = (AppCompatActivity) holder.itemView.getContext();
@@ -68,11 +67,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
                 boolean purchased = holder.cardView.isChecked();
                 current.setPurchased(!purchased);
                 MainListFragment.mViewModel.update(current);
-                // Show appropriate toast
-                if (purchased)
-                    Toast.makeText(v.getContext(), "Item unmarked as purchased", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(v.getContext(), "Item marked as purchased", Toast.LENGTH_SHORT).show();
             });
             holder.editButton.setOnClickListener(v -> {
                 // Start activity with edit request code
@@ -83,7 +77,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             holder.deleteButton.setOnClickListener(v -> {
                 // Delete item and show toast
                 MainListFragment.mViewModel.delete(current);
-                Toast.makeText(v.getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), current.getName()+" deleted", Toast.LENGTH_SHORT).show();
             });
         } else {
             // Covers the case of data not being ready yet.
@@ -96,7 +90,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         mItemsCopy = new ArrayList<>(mItems);
         notifyDataSetChanged();
     }
-
 
     @Override
     public int getItemCount() {
@@ -131,7 +124,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
         private final MaterialCardView cardView;
         private final TextView itemNameView;
         private final TextView itemDescriptionView;
-//        private final TextView itemPriceView;
         private final MaterialButton purchasedButton;
         private final MaterialButton editButton;
         private final MaterialButton deleteButton;
@@ -142,7 +134,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
             cardView = itemView.findViewById(R.id.item_card);
             itemNameView = itemView.findViewById(R.id.itemNameTV);
             itemDescriptionView = itemView.findViewById(R.id.itemDescTV);
-//            itemPriceView = itemView.findViewById(R.id.itemPriceTV);
             purchasedButton = itemView.findViewById(R.id.purchased_button);
             editButton = itemView.findViewById(R.id.edit_button);
             deleteButton = itemView.findViewById(R.id.delete_button);

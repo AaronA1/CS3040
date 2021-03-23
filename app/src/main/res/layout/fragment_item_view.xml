@@ -6,26 +6,30 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="40dp"
+    android:padding="20dp"
     tools:context=".ItemViewFragment">
 
-    <CheckBox
-        android:id="@+id/itemView_purchased"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:buttonTint="@color/colorPrimary"
-        android:layout_gravity="end"
-        android:text="@string/mark_purchased_text">
-    </CheckBox>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/itemView_name"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="@string/item_name_hint"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
+        <CheckBox
+            android:id="@+id/itemView_purchased"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimary"
+            android:layout_toEndOf="@+id/itemView_name"
+            android:text="@string/mark_purchased_text">
+        </CheckBox>
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/itemView_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/item_name_hint"
-        android:textAppearance="?attr/textAppearanceHeadline6"
-        android:textColor="@color/black"
-        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/itemView_desc"
@@ -63,37 +67,45 @@
         android:textAppearance="?attr/textAppearanceBody2"
         android:textColor="@color/black" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_expand"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/expand_map" />
+
     <com.google.android.gms.maps.MapView
         android:id="@+id/mini_map"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_gravity="center"
         android:layout_marginTop="5dp">
-
     </com.google.android.gms.maps.MapView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="40dp"
         android:orientation="horizontal">
-        <Button
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edit_item" />
+            android:layout_marginEnd="5dp"
+            android:text="@string/edit_item_text"
+            app:icon="@android:drawable/ic_menu_edit" />
 
-        <Button
-            android:id="@+id/button_expand"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/expand_map" />
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delete_item_text" />
+            android:layout_marginStart="5dp"
+            android:text="@string/delete_item_text"
+            app:icon="@android:drawable/ic_menu_delete" />
     </LinearLayout>
 
 </LinearLayout>

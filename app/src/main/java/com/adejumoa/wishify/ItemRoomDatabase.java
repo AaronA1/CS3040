@@ -56,13 +56,6 @@ public abstract class ItemRoomDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
-            // If we have no words, then create the initial list of words
-//            if (mDao.getAnyItem().length < 1) {
-//                for (int i = 0; i <= items.length - 1; i++) {
-//                    Item item = new Item(items[i], descriptions[i], prices[i], null, 0.00, 0.00,null);
-//                    mDao.insert(item);
-//                }
-//            }
             return null;
         }
     }
